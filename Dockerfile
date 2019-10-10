@@ -1,7 +1,7 @@
 FROM ubuntu:19.04
-MAINTAINER Xiaoli Dong <xiaolid@gmail.com>	
-LABEL version="1.0.4"
-	
+MAINTAINER Xiaoli Dong <xiaolid@gmail.com>
+LABEL version="1.2.1"
+
 WORKDIR /NGStools/
 
 #Install compiler and perl stuff
@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     tar \
     unzip \
-    wget 
-    
+    wget
+
 
 # Install libraries that BioPerl dependencies depend on
 RUN apt-get update && apt-get install -y \
@@ -95,6 +95,7 @@ RUN wget http://ebg.ucalgary.ca/metaerg/minpath1.4.tar.gz && \
     tar -xzf minpath1.4.tar.gz && \
     rm minpath1.4.tar.gz && \
     cd /NGStools
+ENV MinPath /NGStools/MinPath
 
 #metaerg
 RUN git clone https://github.com/xiaoli-dong/metaerg.git
@@ -103,11 +104,10 @@ RUN git clone https://github.com/xiaoli-dong/metaerg.git
 RUN apt-get remove -y autoconf \
     cpanminus \
     gcc-multilib \
-    git \ 
+    git \
     make && \
-    apt-get autoclean -y 
+    apt-get autoclean -y
 
-ENV MinPath /NGStools/MinPath
 ENV PATH="/NGStools/aragorn:/NGStools/minced:/NGStools/Prodigal:/NGStools/ncbi-blast-2.9.0+/bin:/NGStools/diamond:/NGStools/hmmer/src:/NGStools/MinPath:/NGStools/metaerg/bin:${PATH}"
 
 WORKDIR /NGStools/
