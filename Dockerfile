@@ -1,6 +1,6 @@
 FROM ubuntu:19.04
 MAINTAINER Xiaoli Dong <xiaolid@gmail.com>
-LABEL version="1.2.1"
+LABEL version="1.2.2"
 
 WORKDIR /NGStools/
 
@@ -95,11 +95,11 @@ RUN wget http://ebg.ucalgary.ca/metaerg/minpath1.4.tar.gz && \
     tar -xzf minpath1.4.tar.gz && \
     rm minpath1.4.tar.gz && \
     cd /NGStools
-ENV MinPath /NGStools/MinPath
+
 
 #metaerg
 RUN git clone https://github.com/xiaoli-dong/metaerg.git
-
+ENV MinPath /NGStools/MinPath
 # Clean
 RUN apt-get remove -y autoconf \
     cpanminus \
