@@ -1,8 +1,11 @@
-FROM ubuntu:19.04
+FROM ubuntu:20.04
 MAINTAINER Xiaoli Dong <xiaolid@gmail.com>
 LABEL version="1.2.2"
 
 WORKDIR /NGStools/
+
+# TZdata on 20.04 requires noninteractive to work
+RUN DEBIAN_FRONTEND=noninteractive TZ=America/Edmonton apt-get update && apt-get install -y tzdata
 
 #Install compiler and perl stuff
 RUN apt-get update && apt-get install -y \
@@ -19,11 +22,9 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     tar \
     unzip \
-    wget
-
+    wget \
 
 # Install libraries that BioPerl dependencies depend on
-RUN apt-get update && apt-get install -y \
     expat \
     graphviz \
     libdb-dev \
@@ -65,7 +66,7 @@ RUN git clone https://github.com/EddyRivasLab/hmmer && \
     cd /NGStools
 
 #blast for classifying rRNA sequences
-RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.9.0+-x64-linux.tar.gz && \
+RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.9.0/ncbi-blast-2.9.0+-x64-linux.tar.gz && \
     tar -xzf ncbi-blast-2.9.0+-x64-linux.tar.gz && \
     rm ncbi-blast-2.9.0+-x64-linux.tar.gz && \
     cd /NGStools
@@ -91,9 +92,9 @@ RUN mkdir diamond && \
     cd /NGStools
 
 #MinPath
-RUN wget http://ebg.ucalgary.ca/metaerg/minpath1.4.tar.gz && \
-    tar -xzf minpath1.4.tar.gz && \
-    rm minpath1.4.tar.gz && \
+COPY minpath1.4.tar.gz /
+RUN tar -xzf /minpath1.4.tar.gz && \
+    rm /minpath1.4.tar.gz && \
     cd /NGStools
 
 
